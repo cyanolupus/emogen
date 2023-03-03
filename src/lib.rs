@@ -25,8 +25,8 @@ pub async fn main(req: Request, env: Env, _ctx: worker::Context) -> Result<Respo
     let html = include_str!("../static/index.html.tmpl");
     let compressed_ttf = include_bytes_zstd::include_bytes_zstd!("./static/Koruri-Extrabold-subset.ttf", 21);
     let font = Font::try_from_vec(compressed_ttf).unwrap();
-    let height = 512;
-    let width = 512;
+    let height = 128;
+    let width = 128;
     let generator = Emogen::new(service_name.to_string(), base_domain.to_string(), html.to_string(), font, height, width);
 
     let router = Router::with_data(generator);
