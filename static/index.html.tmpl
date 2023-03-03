@@ -4,23 +4,25 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>えもじぇん</title>
-    <link rel="shortcut icon" href="https://{{ .Domain }}/えもじぇん/e.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://{{ .Domain }}/{{ .Moji }}/e.ico?{{ .Query }}" type="image/x-icon">
     <meta property="og:type" content="website" />
     <meta property="og:title" content="えもじぇん" />
     <meta property="og:description" content="絵文字生成" />
-    <meta property="og:url" content="https://{{ .Domain }}/" />
+    <meta property="og:url" content="https://{{ .Domain }}/{{ .Moji }}?{{ .Query }}" />
     <meta property="og:site_name" content="えもじぇん" />
-    <meta property="og:image" content="https://{{ .Domain }}/えもじぇん/e.png" />
+    <meta property="og:image" content="https://{{ .Domain }}/{{ .Moji }}/e.png?{{ .Query }}" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@cyanolupus" />
-    <meta name=“twitter:image” content=“https://{{ .Domain }}/えもじぇん/e.png“ />
+    <meta name=“twitter:image” content=“https://{{ .Domain }}/{{ .Moji }}/e.png?{{ .Query }}“ />
 </head>
 
 <body>
 <h1>えもじぇん</h1>
 <p>絵文字生成</p>
 
-<p><a href="https://{{ .Domain }}/えもじぇん/e.png"><img src="https://{{ .Domain }}/えもじぇん/e.png" alt="えもじぇん" /></a></p>
+<p>{{ .Moji_decoded }}</p>
+
+<p><a href="https://{{ .Domain }}/{{ .Moji }}/e.png?{{ .Query }}"><img src="https://{{ .Domain }}/{{ .Moji }}/e.png?{{ .Query }}" alt="{{ .Moji_decoded }}" /></a></p>
 
 <h2>色の付け方</h2>
 <p>色はRGBAによって指定し，文字色と背景色それぞれで r,g,b,a の値をそれぞれ 16 進数 (0~f) で表します．優先順で以下のように指定</p>
