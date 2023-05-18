@@ -14,6 +14,10 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@cyanolupus" />
     <meta name=“twitter:image” content=“https://{{ .Domain }}/{{ .Moji }}/e.png?{{ .Query }}“ />
+    <style>
+        .btn{align-items:center;width:60px;height:60px;font-size:30px;border-radius:10%;border:none;background:#fff;}
+        .btn:hover{background: #aaa;}
+    </style>
 </head>
 
 <body>
@@ -24,11 +28,25 @@
 
 <p><a href="https://{{ .Domain }}/{{ .Moji }}/e.png?{{ .Query }}"><img src="https://{{ .Domain }}/{{ .Moji }}/e.png?{{ .Query }}" alt="{{ .Moji_decoded }}" /></a></p>
 
+<p>
+    link: 
+    <a href="https://{{ .Domain }}/{{ .Moji }}/png?{{ .Query }}">png</a>
+    <a href="https://{{ .Domain }}/{{ .Moji }}/ico?{{ .Query }}">ico</a>
+    <a href="https://{{ .Domain }}/{{ .Moji }}/jpg?{{ .Query }}">jpg</a>
+    <a href="https://{{ .Domain }}/{{ .Moji }}/gif?{{ .Query }}">gif</a>
+</p>
+
 <h2>色の付け方</h2>
-<p>色はRGBAによって指定し，文字色と背景色それぞれで r,g,b,a の値をそれぞれ 16 進数 (0~f) で表します．優先順で以下のように指定</p>
+<p>色はRGBAによって指定し，文字色と背景色それぞれで r,g,b,a の値をそれぞれ 4bit (0~f) で表します．優先順で以下のように指定</p>
 <ul>
 <li>サブドメイン指定 (例: <a href="https://ff0f0000.urem.uk/てすと">https://ff0f0000.urem.uk/てすと</a>)</li>
 <li>パラメータ指定 (例: <a href="https://urem.uk/てすと?fg=ff0f&bg=0000">https://urem.uk/てすと?fg=ff0f&bg=0000</a>)</li>
+</ul>
+
+8bit 指定も可能です．
+<ul>
+<li>サブドメイン指定 (例: <a href="https://ffff00ff00000000.urem.uk/てすと">https://ffff00ff00000000.urem.uk/てすと</a>)</li>
+<li>パラメータ指定 (例: <a href="https://urem.uk/てすと?fg=ffff00ff&bg=00000000">https://urem.uk/てすと?fg=ffff00ff&bg=00000000</a>)</li>
 </ul>
 
 <h2>改行</h2>
@@ -43,15 +61,12 @@
 <li>gif (例: <a href="https://ff0f0000.urem.uk/てすと/gif">https://ff0f0000.urem.uk/てすと/gif</a>)</li>
 </ul>
 
-<!-- AddToAny BEGIN -->
-<div class="a2a_kit a2a_kit_size_32 a2a_default_style">
-<a class="a2a_dd" href="https://www.addtoany.com/share"></a>
-<a class="a2a_button_copy_link"></a>
-<a class="a2a_button_twitter"></a>
-<a class="a2a_button_mastodon"></a>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.0/clipboard.min.js"></script>
+<script>new Clipboard('.btn').on('success',function(e){document.getElementById("copybtn").innerHTML="✅";});</script>
+
+<div>
+    <button id="copybtn" class="btn" data-clipboard-text="https://{{ .Domain }}/{{ .Moji }}?{{ .Query }}">📋</button>
 </div>
-<script async src="https://static.addtoany.com/menu/page.js"></script>
-<!-- AddToAny END -->
 
 <!-- Cloudflare Workers -->
 

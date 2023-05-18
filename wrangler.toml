@@ -1,22 +1,20 @@
 name = "emogen"
-type = "javascript"
 workers_dev = true
 compatibility_date = "2023-02-24"
-
-[vars]
-WORKERS_RS_VERSION = "0.0.12"
+main = "build/worker/shim.mjs"
+vars = { WORKERS_RS_VERSION = "0.0.16" }
+routes = [
+    "urem.uk/*",
+    "*.urem.uk/*",
+]
 
 [build]
 command = "cargo install -q worker-build && worker-build --release" # required
 
-[build.upload]
-dir = "build/worker"
-format = "modules"
-main = "./shim.mjs"
-
-[[build.upload.rules]]
-globs = ["**/*.wasm"]
-type = "CompiledWasm"
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "owari-shop"
+preview_bucket_name = "owari-shop"
 
 # read more about configuring your Worker via wrangler.toml at:
 # https://developers.cloudflare.com/workers/cli-wrangler/configuration

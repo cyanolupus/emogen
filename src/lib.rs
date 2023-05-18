@@ -1,9 +1,9 @@
 use worker::*;
 use emogen::Emogen;
-use rusttype::Font;
 
 mod utils;
 mod emogen;
+mod r2;
 
 fn log_request(req: &Request) {
     console_log!(
@@ -23,26 +23,24 @@ pub async fn main(req: Request, env: Env, _ctx: worker::Context) -> Result<Respo
     let service_name = "えもじぇん";
     let base_domain = "urem.uk";
     let html = include_str!("../static/index.html.tmpl");
-    let compressed_ttf = include_bytes_zstd::include_bytes_zstd!("./static/Koruri-Extrabold-subset.ttf", 21);
-    let font = Font::try_from_vec(compressed_ttf).unwrap();
     let height = 128;
     let width = 128;
-    let generator = Emogen::new(service_name.to_string(), base_domain.to_string(), html.to_string(), font, height, width);
+    let generator = Emogen::new(service_name.to_string(), base_domain.to_string(), html.to_string(), height, width);
 
     let router = Router::with_data(generator);
     router
-        .get("/", |req, ctx| ctx.data.response_html(req, &ctx))
-        .get("/:moji", |req, ctx| ctx.data.response_html(req, &ctx))
+        .get("/", |req, ctx| emogen::response_html(req, &ctx))
+        .get("/:moji", |req, ctx| emogen::response_html(req, &ctx))
         
-        .get("/:moji/e.png", |req, ctx| ctx.data.response_emoji_png(req, &ctx))
-        .get("/:moji/e.ico", |req, ctx| ctx.data.response_emoji_ico(req, &ctx))
-        .get("/:moji/e.jpg", |req, ctx| ctx.data.response_emoji_jpg(req, &ctx))
-        .get("/:moji/e.gif", |req, ctx| ctx.data.response_emoji_gif(req, &ctx))
+        .get_async("/:moji/e.png", |req, ctx| emogen::response_emoji(req, ctx, image::ImageOutputFormat::Png))
+        .get_async("/:moji/e.ico", |req, ctx| emogen::response_emoji(req, ctx, image::ImageOutputFormat::Ico))
+        .get_async("/:moji/e.jpg", |req, ctx| emogen::response_emoji(req, ctx, image::ImageOutputFormat::Jpeg(100)))
+        .get_async("/:moji/e.gif", |req, ctx| emogen::response_emoji(req, ctx, image::ImageOutputFormat::Gif))
 
-        .get("/:moji/png", |req, ctx| ctx.data.response_emoji_png(req, &ctx))
-        .get("/:moji/ico", |req, ctx| ctx.data.response_emoji_ico(req, &ctx))
-        .get("/:moji/jpg", |req, ctx| ctx.data.response_emoji_jpg(req, &ctx))
-        .get("/:moji/gif", |req, ctx| ctx.data.response_emoji_gif(req, &ctx))
+        .get_async("/:moji/png", |req, ctx| emogen::response_emoji(req, ctx, image::ImageOutputFormat::Png))
+        .get_async("/:moji/ico", |req, ctx| emogen::response_emoji(req, ctx, image::ImageOutputFormat::Ico))
+        .get_async("/:moji/jpg", |req, ctx| emogen::response_emoji(req, ctx, image::ImageOutputFormat::Jpeg(100)))
+        .get_async("/:moji/gif", |req, ctx| emogen::response_emoji(req, ctx, image::ImageOutputFormat::Gif))
 
         .run(req, env)
         .await
